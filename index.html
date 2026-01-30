@@ -3,245 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portfolio — Leo BIGOTE (BTS SIO SISR)</title>
+  <title>Portfolio — Léo BIGOTÉ (BTS SIO SISR)</title>
 
-  <style>
-    :root{
-      --bg:#070b14;
-      --bg2:#0b1220;
-      --card:#0f1b32cc;
-      --text:#e7eefc;
-      --muted:#a9b7d6;
-      --accent:#4cc9f0;
-      --accent2:#7c3aed;
-      --border:#1b2a4a;
-    }
-    *{box-sizing:border-box}
-
-    /* IMPORTANT: body background must be transparent so the canvas can be seen */
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      color:var(--text);
-      background: transparent;
-      min-height:100vh;
-      overflow-x:hidden;
-    }
-
-    /* Top bar */
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter: blur(10px);
-      background: rgba(7,11,20,.55);
-      border-bottom:1px solid rgba(27,42,74,.55);
-    }
-    .topbar-inner{
-      max-width:1100px;
-      margin:0 auto;
-      padding:14px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:700;
-      letter-spacing:.4px;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:999px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 18px rgba(76,201,240,.35);
-    }
-    nav a{
-      color:var(--muted);
-      text-decoration:none;
-      margin-left:16px;
-      font-size:14px;
-    }
-    nav a:hover{color:var(--text)}
-
-    /* Hero */
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px 18px 60px;
-    }
-    .hero{
-      padding:46px 0 24px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:22px;
-      align-items:center;
-    }
-    @media (max-width: 900px){
-      .hero{grid-template-columns:1fr; padding-top:28px}
-      nav{display:none}
-    }
-
-    .kicker{
-      color:var(--muted);
-      letter-spacing:.28em;
-      text-transform:uppercase;
-      font-size:12px;
-      margin:0 0 12px;
-    }
-    .title{
-      font-size:72px;
-      line-height:0.95;
-      margin:0;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-    }
-    @media (max-width: 650px){
-      .title{font-size:44px}
-    }
-    .subtitle{
-      margin:14px 0 0;
-      font-size:16px;
-      color:var(--muted);
-      line-height:1.6;
-      max-width:62ch;
-    }
-
-    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:600;
-      font-size:14px;
-      border:1px solid rgba(27,42,74,.9);
-      background: rgba(15,27,50,.55);
-      color:var(--text);
-      box-shadow: 0 10px 30px rgba(0,0,0,.25);
-    }
-    .btn:hover{transform: translateY(-1px)}
-    .btn-primary{
-      border:none;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-    }
-    .badge{
-      display:inline-flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
-    .pill{
-      display:inline-block;
-      padding:7px 10px;
-      border-radius:999px;
-      font-size:12px;
-      color:var(--muted);
-      border:1px solid rgba(27,42,74,.9);
-      background: rgba(15,27,50,.40);
-    }
-
-    /* Right side card */
-    .panel{
-      border:1px solid rgba(27,42,74,.9);
-      background: rgba(15,27,50,.35);
-      border-radius:18px;
-      padding:18px;
-    }
-    .panel h3{
-      margin:0 0 10px;
-      font-size:14px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-    .panel p{margin:0; color:var(--text); line-height:1.6}
-    .panel .mini{
-      margin-top:12px;
-      color:var(--muted);
-      font-size:13px;
-    }
-
-    /* Sections */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:14px;
-      margin-top:18px;
-    }
-    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
-    .card{
-      border:1px solid rgba(27,42,74,.9);
-      background: rgba(15,27,50,.35);
-      border-radius:18px;
-      padding:18px;
-    }
-    .card h2{
-      margin:0 0 8px;
-      font-size:16px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-    .card ul{margin:10px 0 0 18px; color:var(--muted); line-height:1.7}
-    .card a{color:var(--accent); text-decoration:none}
-    .card a:hover{text-decoration:underline}
-
-    footer{
-      margin-top:26px;
-      padding-top:18px;
-      border-top:1px solid rgba(27,42,74,.55);
-      color:var(--muted);
-      font-size:13px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    /* ===== Background layers ===== */
-    #bgOverlay{
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(900px 500px at 20% 20%, rgba(76,201,240,.20), transparent 60%),
-        radial-gradient(900px 500px at 80% 35%, rgba(124,58,237,.18), transparent 60%),
-        radial-gradient(1000px 600px at 50% 90%, rgba(76,201,240,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-      pointer-events: none;
-    }
-
-    #bg3d{
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;          /* IMPORTANT: not -1 */
-      opacity: 0.55;       /* adjust */
-      pointer-events: auto; /* interactive */
-    }
-
-    /* Content above background */
-    .topbar, .wrap{
-      position: relative;
-      z-index: 2;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
   <!-- Background layers -->
-  <div id="bgOverlay"></div>
-  <canvas id="bg3d"></canvas>
+  <div id="bgOverlay" aria-hidden="true"></div>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
 
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="brand"><span class="dot"></span> Leo BIGOTE</div>
+      <div class="brand"><span class="dot"></span> Léo BIGOTÉ</div>
       <nav>
         <a href="#competences">compétences</a>
         <a href="#blocs">blocs</a>
@@ -255,7 +29,7 @@
     <section class="hero">
       <div>
         <p class="kicker">BTS SIO • Option SISR</p>
-        <h1 class="title">LEO<br>BIGOTE</h1>
+        <h1 class="title">LEO<br>BIGOTÉ</h1>
         <p class="subtitle">
           Étudiant en <b>BTS SIO SISR</b>, orienté <b>administration systèmes & réseaux</b>.
           Je présente ici mes réalisations alignées sur les <b>blocs de compétences</b> (AD DS, DNS, virtualisation, support).
@@ -316,7 +90,7 @@
         <li><a href="bloc_de_competences/mettre-a-disposition-un-service.html">Bloc 5 — Mettre à disposition un service</a></li>
         <li><a href="bloc_de_competences/organiser-developpement-professionnel.html">Bloc 6 — Organiser son développement professionnel</a></li>
       </ul>
-      <p style="color:var(--muted);margin:12px 0 0">
+      <p class="hint">
         Astuce : ajoute des captures (“preuves”) dans un dossier <b>assets</b> pour chaque bloc.
       </p>
     </section>
@@ -341,157 +115,16 @@
     </section>
 
     <footer>
-      <div>© <span id="y"></span> Leo BIGOTE — Portfolio BTS SIO SISR</div>
+      <div>© <span id="y"></span> Léo BIGOTÉ — Portfolio BTS SIO SISR</div>
       <div>Hébergé sur GitHub Pages</div>
     </footer>
 
   </div>
 
+  <!-- JS -->
+  <script src="bg3d.js"></script>
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
-  <!-- Three.js (non-module) -->
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/controls/OrbitControls.js"></script>
-
-<script>
-  const canvas = document.getElementById("bg3d");
-
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // Scene
-  const scene = new THREE.Scene();
-
-  // Camera
-  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-  camera.position.set(2.2, 1.2, 3.2);
-
-  // Controls
-  const controls = new THREE.OrbitControls(camera, canvas);
-  controls.enableDamping = true;
-  controls.enablePan = false;
-  controls.minDistance = 2.2;
-  controls.maxDistance = 6;
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.8;
-
-  // Lights
-  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const key = new THREE.DirectionalLight(0xffffff, 0.9);
-  key.position.set(3, 4, 2);
-  scene.add(key);
-
-  // Group (PC)
-  const pc = new THREE.Group();
-  scene.add(pc);
-
-  // Case
-  const tower = new THREE.Mesh(
-    new THREE.BoxGeometry(1.1, 2.0, 0.75),
-    new THREE.MeshStandardMaterial({ color: 0x0b1220, metalness: 0.4, roughness: 0.35 })
-  );
-  tower.position.set(0, 1.0, 0);
-  pc.add(tower);
-
-  // Glass panel
-  const glass = new THREE.Mesh(
-    new THREE.PlaneGeometry(1.05, 1.9),
-    new THREE.MeshStandardMaterial({ color: 0x0b1220, transparent: true, opacity: 0.25 })
-  );
-  glass.position.set(0.56, 1.0, 0);
-  glass.rotation.y = -Math.PI / 2;
-  pc.add(glass);
-
-  // RGB rings
-  const ringGeo = new THREE.TorusGeometry(0.23, 0.03, 16, 80);
-  const fanYs = [1.55, 1.10, 0.65];
-  const rings = fanYs.map((y) => {
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0x4cc9f0,
-      emissive: 0x4cc9f0,
-      emissiveIntensity: 2.2,
-      metalness: 0.2,
-      roughness: 0.25
-    });
-    const ring = new THREE.Mesh(ringGeo, mat);
-    ring.position.set(0, y, 0.39);
-    ring.rotation.x = Math.PI / 2;
-    pc.add(ring);
-    return ring;
-  });
-
-  // GPU glow
-  const gpu = new THREE.Mesh(
-    new THREE.BoxGeometry(0.7, 0.08, 0.18),
-    new THREE.MeshStandardMaterial({ color: 0x111827, emissive: 0x7c3aed, emissiveIntensity: 1.6 })
-  );
-  gpu.position.set(0.12, 1.05, 0.05);
-  pc.add(gpu);
-
-  pc.rotation.y = -0.45;
-  pc.position.set(0, -0.1, 0);
-
-  // Stars
-  const starsGeo = new THREE.BufferGeometry();
-  const count = 600;
-  const pos = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
-    pos[i*3+0] = (Math.random() - 0.5) * 20;
-    pos[i*3+1] = (Math.random() - 0.5) * 12;
-    pos[i*3+2] = (Math.random() - 0.5) * 20;
-  }
-  starsGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  const stars = new THREE.Points(starsGeo, new THREE.PointsMaterial({ size: 0.012, transparent: true, opacity: 0.6 }));
-  scene.add(stars);
-
-  function resize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener("resize", resize);
-  resize();
-
-  function hsvToHex(h, s, v) {
-    const c = v * s;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = v - c;
-    let r=0,g=0,b=0;
-    if (h < 60) [r,g,b]=[c,x,0];
-    else if (h < 120) [r,g,b]=[x,c,0];
-    else if (h < 180) [r,g,b]=[0,c,x];
-    else if (h < 240) [r,g,b]=[0,x,c];
-    else if (h < 300) [r,g,b]=[x,0,c];
-    else [r,g,b]=[c,0,x];
-    const R = Math.round((r+m)*255);
-    const G = Math.round((g+m)*255);
-    const B = Math.round((b+m)*255);
-    return (R << 16) + (G << 8) + B;
-  }
-
-  let t = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    t += 0.01;
-
-    rings.forEach((ring, i) => {
-      const hue = (t * 80 + i * 120) % 360;
-      const col = hsvToHex(hue, 0.75, 1.0);
-      ring.material.color.setHex(col);
-      ring.material.emissive.setHex(col);
-      ring.rotation.z += 0.02 + i * 0.005;
-    });
-
-    gpu.material.emissiveIntensity = 1.2 + Math.sin(t * 2) * 0.5;
-
-    controls.update();
-    renderer.render(scene, camera);
-  }
-  animate();
-</script>
 </body>
 </html>
