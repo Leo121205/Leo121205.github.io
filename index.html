@@ -317,5 +317,211 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
   </script>
+  <!-- ====== 3D BACKGROUND (Gaming RGB PC Tower) ====== -->
+<canvas id="bg3d"></canvas>
+
+<script type="module">
+  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
+  import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+  const canvas = document.getElementById("bg3d");
+
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Scene
+  const scene = new THREE.Scene();
+
+  // Camera
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(2.2, 1.2, 3.2);
+
+  // Controls (drag to rotate)
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.enablePan = false;
+  controls.minDistance = 2.2;
+  controls.maxDistance = 6;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.8;
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const key = new THREE.DirectionalLight(0xffffff, 0.8);
+  key.position.set(3, 4, 2);
+  scene.add(key);
+
+  // Group (PC)
+  const pc = new THREE.Group();
+  scene.add(pc);
+
+  // Case (tower)
+  const caseGeo = new THREE.BoxGeometry(1.1, 2.0, 0.75);
+  const caseMat = new THREE.MeshStandardMaterial({
+    color: 0x0b1220,
+    metalness: 0.4,
+    roughness: 0.35
+  });
+  const tower = new THREE.Mesh(caseGeo, caseMat);
+  tower.position.set(0, 1.0, 0);
+  pc.add(tower);
+
+  // Glass side panel
+  const glassGeo = new THREE.PlaneGeometry(1.05, 1.9);
+  const glassMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0b1220,
+    metalness: 0.0,
+    roughness: 0.05,
+    transmission: 0.6,
+    transparent: true,
+    opacity: 0.35,
+    thickness: 0.2
+  });
+  const glass = new THREE.Mesh(glassGeo, glassMat);
+  glass.position.set(0.56, 1.0, 0);      // on the right side
+  glass.rotation.y = -Math.PI / 2;
+  pc.add(glass);
+
+  // Front fans (RGB rings)
+  const ringGeo = new THREE.TorusGeometry(0.23, 0.03, 16, 80);
+  const ringMats = [0, 1, 2].map(() =>
+    new THREE.MeshStandardMaterial({
+      color: 0x4cc9f0,
+      emissive: 0x4cc9f0,
+      emissiveIntensity: 2.2,
+      metalness: 0.2,
+      roughness: 0.25
+    })
+  );
+
+  const fanYs = [1.55, 1.10, 0.65];
+  const rings = fanYs.map((y, i) => {
+    const ring = new THREE.Mesh(ringGeo, ringMats[i]);
+    ring.position.set(0, y, 0.39); // front face
+    ring.rotation.x = Math.PI / 2;
+    pc.add(ring);
+
+    // inner glow disk
+    const disk = new THREE.Mesh(
+      new THREE.CircleGeometry(0.18, 48),
+      new THREE.MeshStandardMaterial({
+        color: 0x101827,
+        emissive: 0x4cc9f0,
+        emissiveIntensity: 1.2,
+        transparent: true,
+        opacity: 0.35
+      })
+    );
+    disk.position.set(0, y, 0.375);
+    pc.add(disk);
+
+    return { ring, disk };
+  });
+
+  // Simple “GPU bar” glow inside
+  const gpuGeo = new THREE.BoxGeometry(0.7, 0.08, 0.18);
+  const gpuMat = new THREE.MeshStandardMaterial({
+    color: 0x111827,
+    emissive: 0x7c3aed,
+    emissiveIntensity: 1.6
+  });
+  const gpu = new THREE.Mesh(gpuGeo, gpuMat);
+  gpu.position.set(0.12, 1.05, 0.05);
+  pc.add(gpu);
+
+  // Slight tilt for style
+  pc.rotation.y = -0.45;
+  pc.position.set(0, -0.1, 0);
+
+  // Background particles (subtle stars)
+  const stars = new THREE.Points(
+    new THREE.BufferGeometry(),
+    new THREE.PointsMaterial({ size: 0.012, opacity: 0.6, transparent: true })
+  );
+  {
+    const count = 700;
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      pos[i * 3 + 0] = (Math.random() - 0.5) * 20;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
+    }
+    stars.geometry.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  }
+  scene.add(stars);
+
+  // Fit canvas to screen
+  function resize() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  // Animate RGB colors
+  function hsvToHex(h, s, v) {
+    const c = v * s;
+    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    const m = v - c;
+    let r=0,g=0,b=0;
+    if (h < 60) [r,g,b]=[c,x,0];
+    else if (h < 120) [r,g,b]=[x,c,0];
+    else if (h < 180) [r,g,b]=[0,c,x];
+    else if (h < 240) [r,g,b]=[0,x,c];
+    else if (h < 300) [r,g,b]=[x,0,c];
+    else [r,g,b]=[c,0,x];
+    const R = Math.round((r+m)*255);
+    const G = Math.round((g+m)*255);
+    const B = Math.round((b+m)*255);
+    return (R << 16) + (G << 8) + B;
+  }
+
+  let t = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    t += 0.01;
+
+    rings.forEach((obj, i) => {
+      const hue = (t * 60 * (i + 1) + i * 90) % 360; // shifting RGB
+      const col = hsvToHex(hue, 0.75, 1.0);
+      obj.ring.material.color.setHex(col);
+      obj.ring.material.emissive.setHex(col);
+      obj.disk.material.emissive.setHex(col);
+
+      obj.ring.rotation.z += 0.02 + i * 0.005; // fan spin
+    });
+
+    gpu.material.emissiveIntensity = 1.2 + Math.sin(t * 2) * 0.5;
+
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
+
+<style>
+  /* canvas behind everything */
+  #bg3d{
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.35;        /* baisse/augmente si tu veux */
+    pointer-events: auto;  /* laisse l’interaction */
+  }
+
+  /* IMPORTANT: ton contenu doit être au-dessus */
+  body > *:not(#bg3d){
+    position: relative;
+    z-index: 1;
+  }
+</style>
+<!-- ====== /3D BACKGROUND ====== -->
+
 </body>
 </html>
