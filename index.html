@@ -1,116 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Portfolio - Leo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #0f172a;
-            color: white;
-        }
-        header {
-            background-color: #1e293b;
-            padding: 40px;
-            text-align: center;
-        }
-        section {
-            padding: 40px;
-            max-width: 900px;
-            margin: auto;
-        }
-        h1, h2 {
-            color: #38bdf8;
-        }
-        .card {
-            background-color: #1e293b;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Léo BIGOTÉ (BTS SIO SISR)</title>
+  <style>
+    :root{
+      --bg:#070b14;
+      --bg2:#0b1220;
+      --card:#0f1b32cc;
+      --text:#e7eefc;
+      --muted:#a9b7d6;
+      --accent:#4cc9f0;
+      --accent2:#7c3aed;
+      --border:#1b2a4a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 20%, rgba(76,201,240,.20), transparent 60%),
+        radial-gradient(900px 500px at 80% 35%, rgba(124,58,237,.18), transparent 60%),
+        radial-gradient(1000px 600px at 50% 90%, rgba(76,201,240,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,11,20,.55);
+      border-bottom:1px solid rgba(27,42,74,.55);
+    }
+    .topbar-inner{
+      max-width:1100px;
+      margin:0 auto;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      letter-spacing:.4px;
+    }
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 18px rgba(76,201,240,.35);
+    }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      margin-left:16px;
+      font-size:14px;
+    }
+    nav a:hover{color:var(--text)}
+
+    /* Hero */
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 18px 60px;
+    }
+    .hero{
+      padding:46px 0 24px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:22px;
+      align-items:center;
+    }
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr; padding-top:28px}
+      nav{display:none}
+    }
+
+    .kicker{
+      color:var(--muted);
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      font-size:12px;
+      margin:0 0 12px;
+    }
+    .title{
+      font-size:72px;
+      line-height:0.95;
+      margin:0;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+    }
+    @media (max-width: 650px){
+      .title{font-size:44px}
+    }
+    .subtitle{
+      margin:14px 0 0;
+      font-size:16px;
+      color:var(--muted);
+      line-height:1.6;
+      max-width:62ch;
+    }
+
+    .cta-row{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:600;
+      font-size:14px;
+      border:1px solid rgba(27,42,74,.9);
+      background: rgba(15,27,50,.55);
+      color:var(--text);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn-primary{
+      border:none;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:16px;
+    }
+    .pill{
+      display:inline-block;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(27,42,74,.9);
+      background: rgba(15,27,50,.40);
+    }
+
+    /* Right side card */
+    .panel{
+      border:1px solid rgba(27,42,74,.9);
+      background: rgba(15,27,50,.35);
+      border-radius:18px;
+      padding:18px;
+    }
+    .panel h3{
+      margin:0 0 10px;
+      font-size:14px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .panel p{margin:0; color:var(--text); line-height:1.6}
+    .panel .mini{
+      margin-top:12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* Sections */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+    .card{
+      border:1px solid rgba(27,42,74,.9);
+      background: rgba(15,27,50,.35);
+      border-radius:18px;
+      padding:18px;
+    }
+    .card h2{
+      margin:0 0 8px;
+      font-size:16px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .card ul{margin:10px 0 0 18px; color:var(--muted); line-height:1.7}
+    .card a{color:var(--accent); text-decoration:none}
+    .card a:hover{text-decoration:underline}
+
+    footer{
+      margin-top:26px;
+      padding-top:18px;
+      border-top:1px solid rgba(27,42,74,.55);
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>BIGOTE Leo</h1>
-    <p>Étudiant BTS SIO option SISR</p>
-    <p>Passionné par les réseaux, les serveurs et la cybersécurité</p>
-</header>
-
-<section>
-    <h2>À propos de moi</h2>
-    <div class="card">
-        <p>Je suis étudiant en BTS SIO option SISR, j'ai réaliser des projets pratiques : installation de serveurs, gestion d’Active Directory, configuration réseau et sécurisation d’environnements informatiques.</p>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="dot"></span> Leo BIGOTÉ</div>
+      <nav>
+        <a href="#competences">compétences</a>
+        <a href="#blocs">blocs</a>
+        <a href="#contact">contact</a>
+      </nav>
     </div>
+  </div>
 
-    <h2>Compétences techniques</h2>
-    <div class="card">
+  <div class="wrap">
+
+    <section class="hero">
+      <div>
+        <p class="kicker">BTS SIO • Option SISR</p>
+        <h1 class="title">LEO<br>BIGOTÉ</h1>
+        <p class="subtitle">
+          Étudiant en <b>BTS SIO SISR</b>, orienté <b>administration systèmes & réseaux</b>.
+          Je présente ici mes réalisations alignées sur les <b>blocs de compétences</b> (AD DS, DNS, virtualisation, support).
+        </p>
+
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#blocs">Voir les blocs de compétences</a>
+          <a class="btn" href="https://www.linkedin.com/in/leo-bigote/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="btn" href="mailto:leopakiam.bigote@gmail.com">Me contacter</a>
+        </div>
+
+        <div class="badge">
+          <span class="pill">Windows Server 2019</span>
+          <span class="pill">AD DS / DNS</span>
+          <span class="pill">VirtualBox</span>
+          <span class="pill">TCP/IP</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Objectif</h3>
+        <p>Stage / alternance en administration systèmes & réseaux.</p>
+        <p class="mini">
+          Points forts : lab perso, mise en place de domaine AD, gestion utilisateurs/groupes, tests de connectivité, documentation.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid" id="competences">
+      <div class="card">
+        <h2>Compétences techniques</h2>
         <ul>
-            <li>Windows Server (AD DS, DNS)</li>
-            <li>Gestion d’utilisateurs et groupes</li>
-            <li>Réseaux TCP/IP</li>
-            <li>Virtualisation (VirtualBox / VMware)</li>
-            <li>Notions de cybersécurité</li>
+          <li>Windows Server : AD DS, DNS</li>
+          <li>Gestion utilisateurs / groupes / OU</li>
+          <li>Réseaux : TCP/IP, adressage, tests</li>
+          <li>Virtualisation : VirtualBox</li>
+          <li>Bonnes pratiques sécurité (droits, comptes)</li>
         </ul>
-    </div>
+      </div>
 
-    <h2>Projets</h2>
-    <div class="card">
-        <h3>Mise en place d’un domaine Active Directory</h3>
-        <p>Installation et configuration d’un serveur Windows avec AD DS, création d’utilisateurs, groupes, unités d’organisation et ajout d’un poste client au domaine.</p>
-    </div>
+      <div class="card">
+        <h2>Projets</h2>
+        <ul>
+          <li>Mise en place d’un domaine Active Directory (efrei.local)</li>
+          <li>Réseau d’entreprise virtuel (2 cartes : Host-only + NAT)</li>
+          <li>Portfolio BTS SIO sur GitHub Pages (ce site)</li>
+        </ul>
+      </div>
+    </section>
 
-    <div class="card">
-        <h3>Réseau d’entreprise virtuel</h3>
-        <p>Création d’un réseau local virtuel avec plan d’adressage IP, communication entre machines et tests de connectivité.</p>
-    </div>
+    <section class="card" id="blocs">
+      <h2>Blocs de compétences</h2>
+      <ul>
+        <li><a href="bloc_de_competences/gerer-patrimoine-informatique.html">Bloc 1 — Gérer le patrimoine informatique</a></li>
+        <li><a href="bloc_de_competences/repondre-incidents-demandes.html">Bloc 2 — Répondre aux incidents et aux demandes</a></li>
+        <li><a href="bloc_de_competences/developper-presence-en-ligne.html">Bloc 3 — Développer la présence en ligne</a></li>
+        <li><a href="bloc_de_competences/travailler-en-mode-projet.html">Bloc 4 — Travailler en mode projet</a></li>
+        <li><a href="bloc_de_competences/mettre-a-disposition-un-service.html">Bloc 5 — Mettre à disposition un service</a></li>
+        <li><a href="bloc_de_competences/organiser-developpement-professionnel.html">Bloc 6 — Organiser son développement professionnel</a></li>
+      </ul>
+      <p style="color:var(--muted);margin:12px 0 0">
+        Astuce : ajoute des captures (“preuves”) dans un dossier <b>assets</b> pour chaque bloc.
+      </p>
+    </section>
 
-<div class="card">
-  <h2>Blocs de compétences</h2>
-  <ul>
-    <li>
-      <a href="bloc_de_competences/gerer-patrimoine-informatique.html">
-        Bloc 1 – Gérer le patrimoine informatique
-      </a>
-    </li>
-      <li>
-  <a href="bloc_de_competences/repondre-incidents-demandes.html">
-    Bloc 2 – Répondre aux incidents et aux demandes
-  </a>
-</li>
-      <li>
-  <a href="bloc_de_competences/developper-presence-en-ligne.html">
-    Bloc 3 – Développer la présence en ligne
-  </a>
-</li>
-      <li>
-  <a href="bloc_de_competences/travailler-en-mode-projet.html">
-    Bloc 4 – Travailler en mode projet
-  </a>
-</li>
-<li>
-  <a href="bloc_de_competences/metre-a-disposition-un-service.html">
-    Bloc 5 – Mettre à disposition un service
-  </a>
-</li>
-<li>
-  <a href="bloc_de_competences/organiser-developpement-professionnel.html">
-    Bloc 6 – Organiser son développement professionnel
-  </a>
-</li>
+    <section class="grid" id="contact">
+      <div class="card">
+        <h2>Contact</h2>
+        <ul>
+          <li>Email : <a href="mailto:leopakiam.bigote@gmail.com">leopakiam.bigote@gmail.com</a></li>
+          <li>LinkedIn : <a href="https://www.linkedin.com/in/leo-bigote/" target="_blank" rel="noreferrer">/in/leo-bigote</a></li>
+          <li>GitHub : <a href="https://github.com/Leo121205" target="_blank" rel="noreferrer">@Leo121205</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>À améliorer ensuite</h2>
+        <ul>
+          <li>Ajouter un CV PDF (bouton)</li>
+          <li>Mettre des “preuves” (captures) par bloc</li>
+          <li>Ajouter une page “Veille” (Bloc 6)</li>
+        </ul>
+      </div>
+    </section>
 
+    <footer>
+      <div>© <span id="y"></span> Léo BIGOTÉ — Portfolio BTS SIO SISR</div>
+      <div>Hébergé sur GitHub Pages</div>
+    </footer>
 
-  </ul>
-</div>
+  </div>
 
-    <h2>Contact</h2>
-    <div class="card">
-        <p>Email : leopakiam.bigote@gmail.com</p>
-        <p>LinkedIn : www.linkedin.com/in/leo-bigote</p>
-    </div>
-</section>
-
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
